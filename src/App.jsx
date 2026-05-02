@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 import "./App.css";
 
 const stepItems = [
@@ -161,9 +162,9 @@ function App() {
             <a href="#contact">Contact</a>
           </li>
         </ul>
-        <button type="button" className="nav-cta">
+        <Link to="/list-property" className="nav-cta">
           List Your Property
-        </button>
+        </Link>
       </nav>
 
       <main id="top">
@@ -198,9 +199,9 @@ function App() {
               recommendations across Bangladesh.
             </p>
             <div className="hero-actions">
-              <a href="#" className="btn-primary">
+              <Link to="/browse" className="btn-primary">
                 Explore Properties
-              </a>
+              </Link>
               <a href="#how" className="btn-ghost">
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                   <circle
@@ -356,12 +357,12 @@ function App() {
             match on bari.com. It&apos;s free to search and free to list.
           </p>
           <div className="cta-actions fade-up">
-            <a href="#" className="btn-primary">
+            <Link to="/browse" className="btn-primary">
               Find a Property
-            </a>
-            <a href="#" className="btn-dark">
+            </Link>
+            <Link to="/list-property" className="btn-dark">
               List for Free
-            </a>
+            </Link>
             <a href="#" className="btn-outline-dark">
               Talk to AI Assistant
             </a>
