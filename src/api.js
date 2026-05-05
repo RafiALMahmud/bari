@@ -39,6 +39,54 @@ export async function uploadPhoto(propertyId, file) {
   return res.json();
 }
 
+export async function getAvailability(propertyId) {
+  const res = await fetch(`${BASE}/bookings/property/${propertyId}/availability`);
+  if (!res.ok) throw new Error("Failed to fetch availability");
+  return res.json();
+}
+
+export async function createBooking(data) {
+  const res = await fetch(`${BASE}/bookings/`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) {
+    const err = await res.json();
+    throw new Error(err.detail || "Booking failed");
+  }
+  return res.json();
+}
+
+export async function getChatMessages(propertyId, sessionToken) {
+  const res = await fetch(`${BASE}/chat/${propertyId}/${sessionToken}`);
+  if (!res.ok) throw new Error("Failed to load messages");
+  return res.json();
+}
+
+export async function sendChatMessage(data) {
+  const res = await fetch(`${BASE}/chat/`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) throw new Error("Failed to send message");
+  return res.json();
+}
+
+export async function aiChat(messages, filters = {}) {
+  const res = await fetch(`${BASE}/ai/chat`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ messages, ...filters }),
+  });
+  if (!res.ok) {
+    const err = await res.json();
+    throw new Error(err.detail || "AI unavailable");
+  }
+  return res.json();
+}
+
 export async function uploadDocument(propertyId, file) {
   const form = new FormData();
   form.append("file", file);

@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { fetchProperty } from "../api";
+import BookingPanel from "../components/BookingPanel";
+import ChatWidget from "../components/ChatWidget";
 import "./PropertyDetail.css";
 
 const LABEL = {
@@ -184,7 +186,7 @@ export default function PropertyDetail() {
             )}
           </div>
 
-          {/* Owner card */}
+          {/* Sidebar: owner + booking + chat */}
           <aside className="detail-aside">
             <div className="owner-card">
               <div className="owner-avatar">{owner_name.charAt(0)}</div>
@@ -198,10 +200,10 @@ export default function PropertyDetail() {
                   Send Email
                 </a>
               )}
-              <button className="owner-btn owner-btn-chat" disabled>
-                Chat on bari.com (coming soon)
-              </button>
             </div>
+
+            <BookingPanel property={property} />
+            <ChatWidget property={property} />
           </aside>
         </div>
       </div>

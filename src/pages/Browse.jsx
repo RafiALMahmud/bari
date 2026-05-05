@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { fetchProperties } from "../api";
+import AIAssistant from "../components/AIAssistant";
 import "./Browse.css";
 
 const UNIVERSITIES = [
@@ -287,6 +288,7 @@ export default function Browse() {
           )}
         </main>
       </div>
+      <AIAssistant />
     </div>
   );
 }

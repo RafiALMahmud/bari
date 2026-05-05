@@ -1,0 +1,119 @@
+.bp-card {
+  background: #fff;
+  border: 1px solid #e8e8e4;
+  border-radius: 14px;
+  padding: 1.25rem;
+}
+
+.bp-price-header {
+  display: flex;
+  align-items: baseline;
+  gap: 0.25rem;
+  margin-bottom: 1rem;
+}
+.bp-price { font-size: 1.5rem; font-weight: 700; color: #2563eb; }
+.bp-per { font-size: 0.9rem; color: #888; }
+
+.bp-busy {
+  background: #fef9c3;
+  border: 1px solid #fde68a;
+  border-radius: 8px;
+  padding: 0.6rem 0.75rem;
+  margin-bottom: 1rem;
+  font-size: 0.8rem;
+}
+.bp-busy-label { font-weight: 600; color: #92400e; margin-bottom: 0.25rem; }
+.bp-busy-row { color: #78350f; }
+
+.bp-form { display: flex; flex-direction: column; gap: 0.75rem; }
+
+.bp-field { display: flex; flex-direction: column; gap: 0.3rem; }
+.bp-field label { font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: #666; }
+.bp-field input,
+.bp-field textarea {
+  padding: 0.5rem 0.65rem;
+  border: 1px solid #d8d8d4;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  background: #fafafa;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.bp-field input:focus,
+.bp-field textarea:focus { border-color: #2563eb; background: #fff; }
+.bp-field textarea { resize: vertical; }
+
+.bp-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 0.75rem;
+  background: #eff6ff;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1d4ed8;
+}
+
+.bp-error {
+  padding: 0.5rem 0.75rem;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  font-size: 0.83rem;
+  color: #991b1b;
+}
+
+.bp-submit {
+  padding: 0.7rem;
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.bp-submit:hover:not(:disabled) { background: #1d4ed8; }
+.bp-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.bp-hint { font-size: 0.75rem; color: #aaa; text-align: center; margin: 0; }
+
+/* Sale */
+.bp-sale { text-align: center; padding: 1.5rem; }
+.bp-sale-label { font-weight: 600; color: #1a1a1a; margin-bottom: 0.35rem; }
+.bp-sale-hint { font-size: 0.85rem; color: #888; margin: 0; }
+
+/* Confirmed */
+.bp-confirmed { text-align: center; }
+.bp-confirmed-icon {
+  width: 48px; height: 48px;
+  background: #22c55e; color: #fff;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem; font-weight: 700;
+  margin: 0 auto 0.75rem;
+}
+.bp-confirmed h3 { margin: 0 0 0.25rem; font-size: 1.1rem; }
+.bp-confirmed p { font-size: 0.88rem; color: #555; margin-bottom: 1rem; }
+.bp-confirmed-rows { display: flex; flex-direction: column; gap: 0; margin-bottom: 1rem; }
+.bp-confirmed-rows div {
+  display: flex; justify-content: space-between;
+  padding: 0.45rem 0;
+  border-bottom: 1px solid #f3f3f0;
+  font-size: 0.85rem;
+}
+.bp-confirmed-rows div span:first-child { color: #888; }
+.bp-confirmed-rows div span:last-child { font-weight: 600; }
+.bp-reset {
+  padding: 0.5rem 1rem;
+  border: 1px solid #d8d8d4;
+  border-radius: 8px;
+  background: transparent;
+  font-size: 0.85rem;
+  cursor: pointer;
+  color: #555;
+}
+.bp-reset:hover { border-color: #999; }

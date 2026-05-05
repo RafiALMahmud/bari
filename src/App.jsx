@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import AIAssistant from "./components/AIAssistant";
 import "./App.css";
 
 const stepItems = [
@@ -438,6 +439,7 @@ function App() {
           <span>Dhaka, Bangladesh</span>
         </div>
       </footer>
+      <AIAssistant />
     </>
   );
 }

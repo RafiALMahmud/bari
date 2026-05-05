@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, DateTime, Float, Integer, String, Text, JSON, Enum
+from sqlalchemy import Boolean, Column, DateTime, Float, ForeignKey, Integer, String, Text, JSON, Enum
 from sqlalchemy.sql import func
 import enum
 from database import Base
@@ -76,3 +76,50 @@ class Property(Base):
     status = Column(Enum(ListingStatus), default=ListingStatus.active, nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
+
+
+# ── Booking ──────────────────────────────────────────────────────────────────
+
+class BookingStatus(str, enum.Enum):
+    pending = "pending"
+    confirmed = "confirmed"
+    cancelled = "cancelled"
+
+
+class Booking(Base):
+    __tablename__ = "bookings"
+
+    id = Column(Integer, primary_key=True, index=True)
+    property_id = Column(Integer, ForeignKey("properties.id", ondelete="CASCADE"), nullable=False)
+
+    renter_name = Column(String(100), nullable=False)
+    renter_phone = Column(String(20), nullable=False)
+    renter_email = Column(String(150), nullable=True)
+
+    check_in = Column(DateTime(timezone=True), nullable=False)
+    check_out = Column(DateTime(timezone=True), nullable=False)
+    rental_type = Column(Enum(RentalType), nullable=False)
+    total_price = Column(Float, nullable=False)
+
+    status = Column(Enum(BookingStatus), default=BookingStatus.pending, nullable=False)
+    note = Column(Text, nullable=True)
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+
+
+# ── Chat ──────────────────────────────────────────────────────────────────────
+
+class SenderType(str, enum.Enum):
+    renter = "renter"
+    owner = "owner"
+
+
+class ChatMessage(Base):
+    __tablename__ = "chat_messages"
+
+    id = Column(Integer, primary_key=True, index=True)
+    property_id = Column(Integer, ForeignKey("properties.id", ondelete="CASCADE"), nullable=False)
+    session_token = Column(String(64), nullable=False, index=True)
+    sender = Column(Enum(SenderType), nullable=False)
+    sender_name = Column(String(100), nullable=False)
+    content = Column(Text, nullable=False)
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
