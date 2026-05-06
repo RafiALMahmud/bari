@@ -1,0 +1,161 @@
+import { useState, useEffect } from "react";
+import { getSafety, submitSafetyVote } from "../api";
+import "./SafetySection.css";
+
+const STARS = [1, 2, 3, 4, 5];
+
+function StarRating({ value, onChange, readonly = false }) {
+  const [hover, setHover] = useState(0);
+  return (
+    <div className="stars">
+      {STARS.map((s) => (
+        <button
+          key={s}
+          type="button"
+          className={`star${(hover || value) >= s ? " filled" : ""}`}
+          onClick={() => !readonly && onChange?.(s)}
+          onMouseEnter={() => !readonly && setHover(s)}
+          onMouseLeave={() => !readonly && setHover(0)}
+          disabled={readonly}
+        >★</button>
+      ))}
+    </div>
+  );
+}
+
+export default function SafetySection({ property }) {
+  const { id, address, latitude, longitude } = property;
+
+  const [safety, setSafety] = useState(null);
+  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState("");
+  const [voterName, setVoterName] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    getSafety(id).then(setSafety).catch(() => {});
+  }, [id]);
+
+  async function handleVote(e) {
+    e.preventDefault();
+    if (!rating) return;
+    setSubmitting(true);
+    try {
+      const result = await submitSafetyVote(id, {
+        rating,
+        comment: comment || null,
+        voter_name: voterName || null,
+      });
+      setSafety((prev) => ({
+        ...prev,
+        avg_score: result.avg_score,
+        vote_count: (prev?.vote_count || 0) + 1,
+        votes: [
+          { rating, comment, voter_name: voterName || "Anonymous", created_at: new Date().toISOString() },
+          ...(prev?.votes || []),
+        ],
+      }));
+      setSubmitted(true);
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  const mapQuery = encodeURIComponent(address);
+  const mapSrc = `https://maps.google.com/maps?q=${mapQuery}&output=embed&z=15`;
+
+  return (
+    <div className="safety-section">
+      {/* Google Maps */}
+      <div className="detail-section">
+        <h2>Location & Accessibility</h2>
+        <div className="map-container">
+          <iframe
+            title="Property location"
+            src={mapSrc}
+            loading="lazy"
+            allowFullScreen
+          />
+        </div>
+        <a
+          className="map-open-link"
+          href={`https://maps.google.com/?q=${mapQuery}`}
+          target="_blank"
+          rel="noreferrer"
+        >
+          Open in Google Maps →
+        </a>
+
+        <div className="nearby-grid">
+          {[
+            { icon: "🎓", label: "University", value: property.nearby_university ? `${property.university_distance_km?.toFixed(1)} km — ${property.nearby_university}` : "—" },
+            { icon: "🏥", label: "Hospital", value: "See map" },
+            { icon: "🚌", label: "Bus stop", value: "See map" },
+            { icon: "🛒", label: "Market", value: "See map" },
+          ].map(({ icon, label, value }) => (
+            <div key={label} className="nearby-card">
+              <span className="nearby-icon">{icon}</span>
+              <span className="nearby-label">{label}</span>
+              <span className="nearby-value">{value}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Safety Score */}
+      <div className="detail-section">
+        <h2>Area Safety</h2>
+        <div className="safety-score-row">
+          <div className="safety-score-big">
+            <span className="score-num">{safety?.avg_score?.toFixed(1) ?? "—"}</span>
+            <span className="score-label">/ 5</span>
+          </div>
+          <div className="safety-score-meta">
+            <StarRating value={Math.round(safety?.avg_score || 0)} readonly />
+            <span className="vote-count">{safety?.vote_count ?? 0} community rating{safety?.vote_count !== 1 ? "s" : ""}</span>
+          </div>
+        </div>
+
+        {/* Recent votes */}
+        {safety?.votes?.length > 0 && (
+          <div className="safety-votes">
+            {safety.votes.slice(0, 3).map((v, i) => (
+              <div key={i} className="safety-vote-item">
+                <div className="vote-header">
+                  <StarRating value={v.rating} readonly />
+                  <span className="vote-author">{v.voter_name}</span>
+                </div>
+                {v.comment && <p className="vote-comment">{v.comment}</p>}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Vote form */}
+        {!submitted ? (
+          <form className="safety-vote-form" onSubmit={handleVote}>
+            <p className="vote-form-label">Rate this area's safety</p>
+            <StarRating value={rating} onChange={setRating} />
+            <input
+              value={voterName}
+              onChange={(e) => setVoterName(e.target.value)}
+              placeholder="Your name (optional)"
+            />
+            <textarea
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              rows={2}
+              placeholder="Share your experience with this area… (optional)"
+            />
+            <button type="submit" disabled={!rating || submitting}>
+              {submitting ? "Submitting…" : "Submit Rating"}
+            </button>
+          </form>
+        ) : (
+          <div className="vote-thanks">Thanks for your rating!</div>
+        )}
+      </div>
+    </div>
+  );
+}

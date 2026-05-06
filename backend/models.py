@@ -123,3 +123,50 @@ class ChatMessage(Base):
     sender_name = Column(String(100), nullable=False)
     content = Column(Text, nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
+
+
+# ── Safety Votes ──────────────────────────────────────────────────────────────
+
+class SafetyVote(Base):
+    __tablename__ = "safety_votes"
+
+    id = Column(Integer, primary_key=True, index=True)
+    property_id = Column(Integer, ForeignKey("properties.id", ondelete="CASCADE"), nullable=False)
+    rating = Column(Integer, nullable=False)           # 1–5
+    comment = Column(String(300), nullable=True)
+    voter_name = Column(String(100), nullable=True)
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+
+
+# ── Forum ─────────────────────────────────────────────────────────────────────
+
+class PostType(str, enum.Enum):
+    neighborhood = "neighborhood"
+    experience = "experience"
+    roommate = "roommate"
+    report = "report"
+
+
+class ForumPost(Base):
+    __tablename__ = "forum_posts"
+
+    id = Column(Integer, primary_key=True, index=True)
+    title = Column(String(200), nullable=False)
+    body = Column(Text, nullable=False)
+    post_type = Column(Enum(PostType), nullable=False)
+    area = Column(String(100), nullable=True)
+    nearby_university = Column(String(200), nullable=True)
+    author_name = Column(String(100), nullable=False)
+    upvotes = Column(Integer, default=0, nullable=False)
+    property_id = Column(Integer, ForeignKey("properties.id", ondelete="SET NULL"), nullable=True)
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+
+
+class ForumComment(Base):
+    __tablename__ = "forum_comments"
+
+    id = Column(Integer, primary_key=True, index=True)
+    post_id = Column(Integer, ForeignKey("forum_posts.id", ondelete="CASCADE"), nullable=False)
+    author_name = Column(String(100), nullable=False)
+    content = Column(Text, nullable=False)
+    created_at = Column(DateTime(timezone=True), server_default=func.now())

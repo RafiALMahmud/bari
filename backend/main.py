@@ -5,7 +5,7 @@ import os
 
 from database import engine, Base
 import models as _models  # noqa: F401 — side-effect import, registers tables with Base.metadata
-from routers import properties, bookings, chat, ai
+from routers import properties, bookings, chat, ai, safety, forum
 
 Base.metadata.create_all(bind=engine)
 
@@ -26,6 +26,8 @@ app.include_router(properties.router, prefix="/api")
 app.include_router(bookings.router, prefix="/api")
 app.include_router(chat.router, prefix="/api")
 app.include_router(ai.router, prefix="/api")
+app.include_router(safety.router, prefix="/api")
+app.include_router(forum.router, prefix="/api")
 
 
 @app.get("/api/health")

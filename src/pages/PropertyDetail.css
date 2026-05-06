@@ -230,6 +230,18 @@
 .owner-btn-email { background: #f3f4f6; color: #1a1a1a; }
 .owner-btn-chat { background: #f0fdf4; color: #15803d; }
 
+/* Report link */
+.report-link {
+  display: inline-block;
+  font-size: 0.82rem;
+  color: #dc2626;
+  text-decoration: none;
+  font-weight: 500;
+  opacity: 0.7;
+  transition: opacity 0.15s;
+}
+.report-link:hover { opacity: 1; text-decoration: underline; }
+
 /* Error */
 .detail-error {
   padding: 4rem;

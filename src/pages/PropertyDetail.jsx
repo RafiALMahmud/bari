@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { fetchProperty } from "../api";
 import BookingPanel from "../components/BookingPanel";
 import ChatWidget from "../components/ChatWidget";
+import SafetySection from "../components/SafetySection";
 import "./PropertyDetail.css";
 
 const LABEL = {
@@ -184,6 +185,16 @@ export default function PropertyDetail() {
                 </div>
               </div>
             )}
+
+            {/* Map + Safety */}
+            <SafetySection property={property} />
+
+            {/* Report */}
+            <div className="detail-section">
+              <Link to={`/forum/new?type=report&property_id=${property.id}&title=Report: ${encodeURIComponent(title)}`} className="report-link">
+                ⚑ Report this listing as unsafe
+              </Link>
+            </div>
           </div>
 
           {/* Sidebar: owner + booking + chat */}

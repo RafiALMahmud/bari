@@ -5,6 +5,7 @@ import App from "./App";
 import Browse from "./pages/Browse";
 import PropertyDetail from "./pages/PropertyDetail";
 import ListProperty from "./pages/ListProperty";
+import Forum from "./pages/Forum";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -14,6 +15,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Route path="/browse" element={<Browse />} />
         <Route path="/property/:id" element={<PropertyDetail />} />
         <Route path="/list-property" element={<ListProperty />} />
+        <Route path="/forum" element={<Forum />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>,

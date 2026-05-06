@@ -160,6 +160,9 @@ function App() {
             <a href="#students">Students</a>
           </li>
           <li>
+            <Link to="/forum">Community</Link>
+          </li>
+          <li>
             <a href="#contact">Contact</a>
           </li>
         </ul>
@@ -426,7 +429,7 @@ function App() {
                 <a href="#">Women&apos;s Housing</a>
               </li>
               <li>
-                <a href="#">Community Forum</a>
+                <Link to="/forum">Community Forum</Link>
               </li>
               <li>
                 <a href="#">Roommate Search</a>
